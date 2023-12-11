@@ -1,3 +1,12 @@
+:root {
+  --clear-button: #faa;
+  --clear-button-hover: #e99;
+  --clear-button-active: #d88;
+  --delete-button: #aaf;
+  --delete-button-hover: #99e;
+  --delete-button-active: #88d;
+}
+
 html {
   box-sizing: border-box;
 }
@@ -22,7 +31,7 @@ body {
 
 .calculator-container {
   width: 450px;
-  height: 550px;
+  height: auto;
   border: 1px solid black;
   display: flex;
   flex-direction: column;
@@ -35,5 +44,63 @@ body {
   align-items: flex-end;
   border: 1px dashed black;
   padding: 10px;
+  font-size: 40px;
+  margin-bottom: 24px;
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.edit-buttons button {
+  width: 215px;
+  height: 75px;
   font-size: 24px;
+  border-radius: 5px;
+}
+
+#clear-button {
+  background-color: var(--clear-button);
+}
+
+#clear-button:hover {
+  background-color: var(--clear-button-hover);
+}
+
+#clear-button:active {
+  background-color: var(--clear-button-active);
+}
+
+#delete-button {
+  background-color: var(--delete-button);
+}
+
+#delete-button:hover {
+  background-color: var(--delete-button-hover);
+}
+
+#delete-button:active {
+  background-color: var(--delete-button-active);
+}
+
+.row {
+  display: flex;
+}
+
+.value {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(408.53px / 4);
+  height: calc(408.53px / 4);
+  border-radius: 5px;
+  margin: 3px;
 }
