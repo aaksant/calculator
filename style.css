@@ -5,6 +5,8 @@
   --delete-button: #aaf;
   --delete-button-hover: #99e;
   --delete-button-active: #88d;
+  --value-hover: #ddd;
+  --value-active: #ccc;
 }
 
 html {
@@ -48,6 +50,10 @@ body {
   margin-bottom: 24px;
 }
 
+.last-screen {
+  min-height: 48px;
+}
+
 .buttons-container {
   display: flex;
   flex-direction: column;
@@ -61,7 +67,7 @@ body {
 }
 
 .edit-buttons button {
-  width: 215px;
+  width: 197px;
   height: 75px;
   font-size: 24px;
   border-radius: 5px;
@@ -95,12 +101,22 @@ body {
   display: flex;
 }
 
-.value {
+.num,
+.operator {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: calc(408.53px / 4);
-  height: calc(408.53px / 4);
+  width: calc(408.53px / 4); 
+  height: calc(408.53px / 4); /* Somehow width = height */
   border-radius: 5px;
   margin: 3px;
+  font-size: 24px;
+}
+
+.row button:hover {
+  background-color: var(--value-hover);
+}
+
+.row button:active {
+  background-color: var(--value-active);
 }
