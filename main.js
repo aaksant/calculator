@@ -9,6 +9,11 @@ const divideButton = document.querySelector('#divide');
 const multiplyButton = document.querySelector('#multiply');
 const subtractButton = document.querySelector('#subtract');
 const dotButton = document.querySelector('#dot-button');
+const equalsButton = document.querySelector('#equals-button');
+
+let firstOperand = '';
+let secondOperand = '';
+let currentOperator = '';
 
 function appendNum(newNum) {
   if (currentOperation.textContent === '0') {
@@ -41,14 +46,44 @@ function divide(a, b) {
 }
 
 function setLastOperation(operator) {
-  let firstOperand = currentOperation.textContent;
-  let currentOperator = operator;
-  if (operator === '.') {
+  firstOperand = currentOperation.textContent;
+  currentOperator = operator;
+  if (currentOperator === '.') {
     return;
   } else {
     lastOperation.textContent = `${firstOperand} ${currentOperator}`;
     currentOperation.textContent = '';
   }
+}
+
+// FIXME:
+function getResult(a, b, operator) {
+  a = parseInt(a);
+  b = parseInt(b);
+  switch (operator) {
+    case '+':
+       return add(a, b);
+    case '-':
+       return subtract(a, b);
+    case 'x':
+       return multiply(a, b);
+    case '÷':
+       if (b === 0) {
+        return null;
+       } else {
+        return divide(a, b);
+       }
+    default:
+      return null;
+  }
+}
+
+// TODO: Create a function for equalsButton that evaluates the expression
+function evaluate() {
+  secondOperand = currentOperation.textContent;
+  currentOperation.textContent = getResult(firstOperand, secondOperand, currentOperator);
+  lastOperation.textContent = `${firstOperand} ${currentOperator} ${secondOperand} =`;
+  currentOperator = '';
 }
 
 nums.forEach((num) => {
@@ -62,3 +97,5 @@ operators.forEach((operator) => {
 });
 
 dotButton.addEventListener('click', appendDot);
+
+equalsButton.addEventListener('click', evaluate);
