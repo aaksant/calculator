@@ -11,8 +11,9 @@ const subtractButton = document.querySelector('#subtract');
 const dotButton = document.querySelector('#dot-button');
 
 function appendNum(newNum) {
-  if (currentOperation.textContent === '0' || currentOperation.textContent !== null) {
-    currentOperation.textContent = newNum;
+  if (currentOperation.textContent === '0') {
+    currentOperation.textContent = '';
+    currentOperation.textContent += newNum;
   } else {
     currentOperation.textContent += newNum;
   }
@@ -42,7 +43,12 @@ function divide(a, b) {
 function setLastOperation(operator) {
   let firstOperand = currentOperation.textContent;
   let currentOperator = operator;
-  lastOperation.textContent = `${firstOperand} ${currentOperator}`;
+  if (operator === '.') {
+    return;
+  } else {
+    lastOperation.textContent = `${firstOperand} ${currentOperator}`;
+    currentOperation.textContent = '';
+  }
 }
 
 nums.forEach((num) => {
