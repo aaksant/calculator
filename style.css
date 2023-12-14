@@ -108,8 +108,13 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.num,
+.operator,
+#equals-button {
   width: calc(408.53px / 4); 
-  height: calc(408.53px / 4); /* Somehow width = height */
+  height: calc(408.53px / 4);
   border-radius: 5px;
   margin: 3px;
   font-size: 24px;
