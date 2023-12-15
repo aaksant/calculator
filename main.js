@@ -25,13 +25,12 @@ function appendNum(newNum) {
 }
 
 function appendDot() {
-  if (
-    !currentOperation.textContent.includes('.') ||
-    currentOperation.textContent === '0'
-  ) {
-    currentOperation.textContent += '.';
-  } else {
+  if (currentOperation.textContent.includes('.')) {
     return;
+  } else if (currentOperation.textContent === '') {
+    currentOperation.textContent += '0.';
+  } else {
+    currentOperation.textContent += '.';
   }
 }
 
@@ -53,7 +52,7 @@ function divide(a, b) {
 
 function setLastOperation(operator) {
   if (currentOperator !== '') evaluate();
-  
+
   firstOperand = currentOperation.textContent;
   currentOperator = operator;
   if (currentOperator === '.') {
@@ -76,7 +75,7 @@ function getResult(a, b, operator) {
     case 'x':
       return multiply(a, b);
     case '÷':
-      return divide(a, b)
+      return divide(a, b);
     default:
       return null;
   }
