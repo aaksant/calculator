@@ -51,9 +51,10 @@ function divide(a, b) {
 }
 
 function setLastOperation(operator) {
-  if (currentOperator !== '') evaluate();
+  if (currentOperator !== '=') evaluate();
 
   firstOperand = currentOperation.textContent;
+  console.log(firstOperand);
   currentOperator = operator;
   if (currentOperator === '.') {
     return;
@@ -100,6 +101,15 @@ function evaluate() {
   currentOperator = '';
 }
 
+function clear() {
+  currentOperation.textContent = '0';
+  lastOperation.textContent = '';
+}
+
+function deleteNum() {
+  currentOperation.textContent = currentOperation.textContent.slice(0, -1);
+}
+
 nums.forEach((num) => {
   num.addEventListener('click', () => appendNum(num.textContent));
 });
@@ -113,3 +123,7 @@ operators.forEach((operator) => {
 dotButton.addEventListener('click', appendDot);
 
 equalsButton.addEventListener('click', evaluate);
+
+clearButton.addEventListener('click', clear);
+
+deleteButton.addEventListener('click', deleteNum);
