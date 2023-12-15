@@ -13,7 +13,7 @@ const equalsButton = document.querySelector('#equals-button');
 
 let firstOperand = '';
 let secondOperand = '';
-let currentOperator = null;
+let currentOperator = '';
 
 function appendNum(newNum) {
   if (currentOperation.textContent === '0') {
@@ -25,8 +25,14 @@ function appendNum(newNum) {
 }
 
 function appendDot() {
-  if (currentOperation.textContent.includes('.')) return;
-  currentOperation.textContent += '.';
+  if (
+    !currentOperation.textContent.includes('.') ||
+    currentOperation.textContent === '0'
+  ) {
+    currentOperation.textContent += '.';
+  } else {
+    return;
+  }
 }
 
 function add(a, b) {
@@ -42,11 +48,7 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
-  if (b === 0) {
-    return null;
-  } else {
-    return a / b;
-  }
+  return a / b;
 }
 
 function setLastOperation(operator) {
@@ -61,8 +63,8 @@ function setLastOperation(operator) {
 }
 
 function getResult(a, b, operator) {
-  a = Number(a);
-  b = Number(b);
+  a = parseFloat(a);
+  b = parseFloat(b);
 
   switch (operator) {
     case '+':
@@ -72,19 +74,31 @@ function getResult(a, b, operator) {
     case 'x':
       return multiply(a, b);
     case '÷':
-      return divide(a, b);
+      return divide(a, b)
     default:
       return null;
   }
 }
 
-function evaluate() {
-  secondOperand = currentOperation.textContent;
-  lastOperation.textContent = `${firstOperand} ${currentOperator} ${secondOperand} =`;
-  currentOperation.textContent = getResult(firstOperand, secondOperand, currentOperator);
-  currentOperator = null;
+function round(result) {
+  return Math.round(result * 10000) / 10000;
 }
 
+function evaluate() {
+  if (currentOperator === '') return;
+  if (currentOperation.textContent === '0' && currentOperator === '÷') {
+    currentOperation.textContent = '';
+    currentOperator = '';
+    return;
+  }
+
+  secondOperand = currentOperation.textContent;
+  lastOperation.textContent = `${firstOperand} ${currentOperator} ${secondOperand} =`;
+  currentOperation.textContent = round(
+    getResult(firstOperand, secondOperand, currentOperator)
+  );
+  currentOperator = '';
+}
 
 nums.forEach((num) => {
   num.addEventListener('click', () => appendNum(num.textContent));
