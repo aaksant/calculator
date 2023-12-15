@@ -52,6 +52,8 @@ function divide(a, b) {
 }
 
 function setLastOperation(operator) {
+  if (currentOperator !== '') evaluate();
+  
   firstOperand = currentOperation.textContent;
   currentOperator = operator;
   if (currentOperator === '.') {
@@ -87,8 +89,7 @@ function round(result) {
 function evaluate() {
   if (currentOperator === '') return;
   if (currentOperation.textContent === '0' && currentOperator === '÷') {
-    currentOperation.textContent = '';
-    currentOperator = '';
+    alert('Cannot divide by 0!');
     return;
   }
 
