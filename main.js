@@ -1,5 +1,5 @@
-const lastOperation = document.querySelector('#last-operation');
-const currentOperation = document.querySelector('#current-operation');
+const lastCalculationScreen = document.querySelector('#last-operation');
+const currentCalculationScreen = document.querySelector('#current-operation');
 const clearButton = document.querySelector('#clear-button');
 const deleteButton = document.querySelector('#delete-button');
 
@@ -16,21 +16,21 @@ let secondOperand = '';
 let currentOperator = '';
 
 function appendNum(newNum) {
-  if (currentOperation.textContent === '0') {
-    currentOperation.textContent = '';
-    currentOperation.textContent += newNum;
+  if (currentCalculationScreen.textContent === '0') {
+    currentCalculationScreen.textContent = '';
+    currentCalculationScreen.textContent += newNum;
   } else {
-    currentOperation.textContent += newNum;
+    currentCalculationScreen.textContent += newNum;
   }
 }
 
 function appendDot() {
-  if (currentOperation.textContent.includes('.')) {
+  if (currentCalculationScreen.textContent.includes('.')) {
     return;
-  } else if (currentOperation.textContent === '') {
-    currentOperation.textContent += '0.';
+  } else if (currentCalculationScreen.textContent === '') {
+    currentCalculationScreen.textContent += '0.';
   } else {
-    currentOperation.textContent += '.';
+    currentCalculationScreen.textContent += '.';
   }
 }
 
@@ -50,17 +50,16 @@ function divide(a, b) {
   return a / b;
 }
 
-function setLastOperation(operator) {
-  if (currentOperator !== '=') evaluate();
+function setlastCalculationScreen(operator) {
+  if (currentOperator !== '=') displayResult();
 
-  firstOperand = currentOperation.textContent;
-  console.log(firstOperand);
+  firstOperand = currentCalculationScreen.textContent;
   currentOperator = operator;
   if (currentOperator === '.') {
     return;
   } else {
-    lastOperation.textContent = `${firstOperand} ${currentOperator}`;
-    currentOperation.textContent = '';
+    lastCalculationScreen.textContent = `${firstOperand} ${currentOperator}`;
+    currentCalculationScreen.textContent = '';
   }
 }
 
@@ -86,28 +85,44 @@ function round(result) {
   return Math.round(result * 10000) / 10000;
 }
 
-function evaluate() {
+function displayResult() {
   if (currentOperator === '') return;
-  if (currentOperation.textContent === '0' && currentOperator === '÷') {
+  if (currentCalculationScreen.textContent === '0' && currentOperator === '÷') {
     alert('Cannot divide by 0!');
     return;
   }
+  if (currentCalculationScreen.textContent === '') return;
 
-  secondOperand = currentOperation.textContent;
-  lastOperation.textContent = `${firstOperand} ${currentOperator} ${secondOperand} =`;
-  currentOperation.textContent = round(
+  secondOperand = currentCalculationScreen.textContent;
+  lastCalculationScreen.textContent = `${firstOperand} ${currentOperator} ${secondOperand} =`;
+  currentCalculationScreen.textContent = round(
     getResult(firstOperand, secondOperand, currentOperator)
   );
   currentOperator = '';
 }
 
 function clear() {
-  currentOperation.textContent = '0';
-  lastOperation.textContent = '';
+  currentCalculationScreen.textContent = '0';
+  lastCalculationScreen.textContent = '';
 }
 
 function deleteNum() {
-  currentOperation.textContent = currentOperation.textContent.slice(0, -1);
+  currentCalculationScreen.textContent = currentCalculationScreen.textContent.slice(0, -1);
+}
+
+function handleKeyboard(keyboard) {
+  if (keyboard.key >= 0 && keyboard.key <= 9) appendNum(keyboard.key);
+  if (
+    keyboard.key === '+' ||
+    keyboard.key === '-' ||
+    keyboard.key === 'x' ||
+    keyboard.key === '÷'
+  )
+    setlastCalculationScreen(keyboard.key);
+  if (keyboard.key === '.') appendDot();
+  if (keyboard.key === '=' || keyboard.key === 'Enter') displayResult();
+  if (keyboard.key === 'Backspace') deleteNum();
+  if (keyboard.key === 'Escape') clear();
 }
 
 nums.forEach((num) => {
@@ -116,14 +131,16 @@ nums.forEach((num) => {
 
 operators.forEach((operator) => {
   operator.addEventListener('click', () =>
-    setLastOperation(operator.textContent)
+    setlastCalculationScreen(operator.textContent)
   );
 });
 
 dotButton.addEventListener('click', appendDot);
 
-equalsButton.addEventListener('click', evaluate);
+equalsButton.addEventListener('click', displayResult);
 
 clearButton.addEventListener('click', clear);
 
 deleteButton.addEventListener('click', deleteNum);
+
+window.addEventListener('keydown', handleKeyboard);
